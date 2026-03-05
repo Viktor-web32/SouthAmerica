@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="bg">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Галерия - Забележителности на Южна Америка</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+      .gallery-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 12px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .gallery-item:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+      }
+      .gallery-item img {
+        width: 100%;
+        height: 280px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+      .gallery-item:hover img {
+        transform: scale(1.05);
+      }
+      .gallery-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+        padding: 20px;
+        color: white;
+        transform: translateY(100%);
+        transition: transform 0.3s ease;
+      }
+      .gallery-item:hover .gallery-overlay {
+        transform: translateY(0);
+      }
+      .gallery-overlay h6 {
+        margin-bottom: 5px;
+        font-weight: 600;
+      }
+      .gallery-overlay p {
+        font-size: 0.85rem;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- NAV -->
+    <nav id="mainNav" class="navbar navbar-expand-lg navbar-light fixed-top bg-white shadow-sm py-3">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="index.html">Южна Америка</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navmenu">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="index.html">Начало</a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="pages/history.html">История</a></li>
+              </ul>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="countries.html">Държави</a></li>
+            <li class="nav-item"><a class="nav-link" href="nature.html">Природа & Животни</a></li>
+            <li class="nav-item"><a class="nav-link" href="culture.html">Култура & Кухня</a></li>
+            <li class="nav-item"><a class="nav-link active" href="gallery.html">Галерия</a></li>
+            <li class="nav-item"><a class="nav-link" href="games.html">Игри</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact.html">Контакт</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main style="margin-top: 80px;">
+      <!-- GALLERY HERO -->
+      <section class="py-5 bg-dark text-white text-center">
+        <div class="container">
+          <h1 class="display-5 fw-bold">Галерия от забележителности</h1>
+          <p class="lead">Открийте най-невероятните места на Южна Америка</p>
+        </div>
+      </section>
+
+      <!-- GALLERY GRID -->
+      <section class="py-5">
+        <div class="container">
+          <h2 class="mb-4">Природни чудеса</h2>
+          <div class="row g-4 mb-5">
+            <div class="col-md-6 col-lg-4">
+              <div class="gallery-item shadow-sm">
+                <img src="images/amazon.webp" alt="Амазонка">
+                <div class="gallery-overlay">
+                  <h6>Амазонска джунгла</h6>
+                  <p>Най-голямата тропическа гора в света, дом на милиони видове животни</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="gallery-item shadow-sm">
+                <img src="images/iguazu.jpg" alt="Игуасу">
+                <div class="gallery-overlay">
+                  <h6>Водопад Игуасу</h6>
+                  <p>Най-мощният водопад в света</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="gallery-item shadow-sm">
+                <img src="images/patagonia-glaciers.jpg" alt="Патагония">
+                <div class="gallery-overlay">
+                  <h6>Патагонски ледници</h6>
+                  <p>Величави ледници в Чили и Аржентина</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="gallery-item shadow-sm">
+                <img src="images/galapagos.JPG" alt="Галапагос">
+                <div class="gallery-overlay">
+                  <h6>Острови Галапагос</h6>
+                  <p>Уникална еволюционна лаборатория</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="gallery-item shadow-sm">
+                <img src="images/andes.jpg" alt="Андите">
+                <div class="gallery-overlay">
+                  <h6>Андите</h6>
+                  <p>Най-дългата планинска верига на света</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="gallery-item shadow-sm">
+                <img src="images/titicaca.webp" alt="Озеро Титикака">
+                <div class="gallery-overlay">
+                  <h6>Озеро Титикака</h6>
+                  <p>Най-високото плавателно езеро.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ARCHAEOLOGICAL SITES -->
+      <section class="py-5 bg-light">
+        <div class="container">
+          <h2 class="mb-4">Археологически съкровища</h2>
+          <div class="row g-4 mb-5">
+            <div class="col-md-6 col-lg-4">
+              <div class="gallery-item shadow-sm">
+                <img src="images/cusco.jpg" alt="Мачу Пикчу">
+                <div class="gallery-overlay">
+                  <h6>Мачу Пикчу</h6>
+                  <p>Древна инска крепост - чудо на света</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="gallery-item shadow-sm">
+                <img src="images/nazca-lines.jpg" alt="Линии Назка">
+                <div class="gallery-overlay">
+                  <h6>Линии Назка</h6>
+                  <p>Мистериозни древни геометрични рисунки</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="gallery-item shadow-sm">
+                <img src="images/chan-chan.jpg" alt="Чан Чан">
+                <div class="gallery-overlay">
+                  <h6>Чан Чан</h6>
+                  <p>Най-големият доколумбов град в Америка</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="gallery-item shadow-sm">
+                <img src="images/bogota.webp" alt="Кабита Виехо">
+                <div class="gallery-overlay">
+                  <h6>Кабита Виехо</h6>
+                  <p>Исторически колониален град в Колумбия</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="gallery-item shadow-sm">
+                <img src="images/tiwanaku.webp" alt="Тиуанаку">
+                <div class="gallery-overlay">
+                  <h6>Тиуанаку</h6>
+                  <p>Древен град на плато в Андите</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="gallery-item shadow-sm">
+                <img src="images/cusco.jpg" alt="Куско">
+                <div class="gallery-overlay">
+                  <h6>Град Куско</h6>
+                  <p>Някогашната столица на инската империя</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CITIES & CULTURE -->
+      <section class="py-5">
+        <div class="container">
+          <h2 class="mb-4">Големи градове и атракции</h2>
+          <div class="row g-4 mb-5">
+            <div class="col-md-6 col-lg-4">
+              <div class="gallery-item shadow-sm">
+                <img src="images/rio.jpg" alt="Рио де Жанейро">
+                <div class="gallery-overlay">
+                  <h6>Рио де Жанейро</h6>
+                  <p>Карнавал, плажове и Спасителят Христос</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="gallery-item shadow-sm">
+                <img src="images/lima.jpg" alt="Лима">
+                <div class="gallery-overlay">
+                  <h6>Лима</h6>
+                  <p>Световен гастрономически център</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="gallery-item shadow-sm">
+                <img src="images/buenos-aires" alt="Буенос Айрес">
+                <div class="gallery-overlay">
+                  <h6>Буенос Айрес</h6>
+                  <p>Париж на Америките</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="gallery-item shadow-sm">
+                <img src="images/montevideo.webp" alt="Монтевидео">
+                <div class="gallery-overlay">
+                  <h6>Монтевидео</h6>
+                  <p>Столица на Уругвай с красиви плажове</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="gallery-item shadow-sm">
+                <img src="images/bogota.webp" alt="Богота">
+                <div class="gallery-overlay">
+                  <h6>Богота</h6>
+                  <p>Колумбийската столица в планината</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="gallery-item shadow-sm">
+                <img src="images/anhel-watterfall.webp" alt="Водопад Анхел">
+                <div class="gallery-overlay">
+                  <h6>Водопадът Анхел</h6>
+                  <p>Най-високият водопад в света</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="py-4 bg-dark text-white">
+      <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+        <div>
+          <small>© 2026 Южна Америка — проучване и вдъхновение</small>
+        </div>
+        <div class="social-links">
+          <a href="#" class="text-white me-3"><i class="fab fa-facebook fa-lg"></i></a>
+          <a href="#" class="text-white me-3"><i class="fab fa-instagram fa-lg"></i></a>
+          <a href="#" class="text-white"><i class="fab fa-twitter fa-lg"></i></a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

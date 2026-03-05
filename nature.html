@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="bg">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Природа и животни на Южна Америка</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  </head>
+  <body>
+
+    <!-- NAV -->
+    <nav id="mainNav" class="navbar navbar-expand-lg navbar-light fixed-top bg-white shadow-sm py-3">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="index.html">Южна Америка</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navmenu">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="index.html">Начало</a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="pages/history.html">История</a></li>
+              </ul>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="countries.html">Държави</a></li>
+            <li class="nav-item"><a class="nav-link active" href="nature.html">Природа & Животни</a></li>
+            <li class="nav-item"><a class="nav-link" href="culture.html">Култура & Кухня</a></li>
+            <li class="nav-item"><a class="nav-link" href="gallery.html">Галерия</a></li>
+            <li class="nav-item"><a class="nav-link" href="games.html">Игри</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact.html">Контакт</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main style="margin-top: 80px;">
+      <!-- NATURE & ANIMALS -->
+      <section class="py-5 bg-light section-fade">
+        <div class="container">
+          <div class="d-flex align-items-center mb-4">
+            <h1 class="me-3">Природа и животни</h1>
+            <p class="text-muted mb-0">Амазонка, Андите, Патагония, Галапагос, Игуасу</p>
+          </div>
+
+          <div class="row align-items-start">
+            <div class="col-lg-7">
+              <div id="natureCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner rounded overflow-hidden shadow-sm">
+                  <div class="carousel-item active">
+                    <img src="images/jaguar.jpg" class="d-block w-100" alt="Ягуар">
+                    <div class="carousel-caption d-none d-md-block text-start">
+                      <h5>Ягуар</h5>
+                      <p>Най-голямата котка на Америка. Мощен ловец от Амазонските джунгли.</p>
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <img src="images/capibara.jpg" class="d-block w-100" alt="Капибара">
+                    <div class="carousel-caption d-none d-md-block text-start">
+                      <h5>Капибара</h5>
+                      <p>Най-големият гризач на света. Отличен плувец.</p>
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <img src="images/condor.jpg" class="d-block w-100" alt="Андски кондор">
+                    <div class="carousel-caption d-none d-md-block text-start">
+                      <h5>Андски кондор</h5>
+                      <p>Една от големите летящи птици с размах на крилете до 3 метра.</p>
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <img src="images/anakonda.jpg" class="d-block w-100" alt="Анаконда">
+                    <div class="carousel-caption d-none d-md-block text-start">
+                      <h5>Анаконда</h5>
+                      <p>Една от най-големите змии. Достига до 8 метра дължина.</p>
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <img src="images/coernl-lama.jpg" class="d-block w-100" alt="Лама">
+                    <div class="carousel-caption d-none d-md-block text-start">
+                      <h5>Лама</h5>
+                      <p>Домашно животно, адаптирано към суровите условия в Андите.</p>
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <img src="images/penguins.jpg" class="d-block w-100" alt="Пингвини">
+                    <div class="carousel-caption d-none d-md-block text-start">
+                      <h5>Пингвини (в Патагония)</h5>
+                      <p>Живеят в южните части на Аржентина. Отлични плувци.</p>
+                    </div>
+                  </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#natureCarousel" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#natureCarousel" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                </button>
+              </div>
+            </div>
+
+            <div class="col-lg-5 mt-4 mt-lg-0">
+              <h5>Избрани животни</h5>
+              <div class="animal-list mt-3">
+                <div class="d-flex align-items-start mb-4" onclick="goToSlide(0)" style="cursor:pointer;">
+                  <img src="images/jaguar.jpg" alt="Ягуар" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-right: 12px; flex-shrink: 0;">
+                  <div>
+                    <h6 class="mb-1">Ягуар</h6>
+                    <p class="text-muted mb-0" style="font-size: 0.75rem;">Най-голямата котка в Южна Америка. Мощен ловец, обитаващ Амазонските джунгли.</p>
+                  </div>
+                </div>
+                <div class="d-flex align-items-start mb-4" onclick="goToSlide(1)" style="cursor:pointer;">
+                  <img src="images/capibara.jpg" alt="Капибара" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-right: 12px; flex-shrink: 0;">
+                  <div>
+                    <h6 class="mb-1">Капибара</h6>
+                    <p class="text-muted mb-0" style="font-size: 0.75rem;">Най-големият гризач в света. Живее близо до вода и е отличен плувец.</p>
+                  </div>
+                </div>
+                <div class="d-flex align-items-start mb-4" onclick="goToSlide(2)" style="cursor:pointer;">
+                  <img src="images/condor.jpg" alt="Андски кондор" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-right: 12px; flex-shrink: 0;">
+                  <div>
+                    <h6 class="mb-1">Андски кондор</h6>
+                    <p class="text-muted mb-0" style="font-size: 0.75rem;">Една от най-големите летящи птици с размахна крилете до 3 метра.</p>
+                  </div>
+                </div>
+                <div class="d-flex align-items-start mb-4" onclick="goToSlide(3)" style="cursor:pointer;">
+                  <img src="images/anakonda.jpg" alt="Анаконда" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-right: 12px; flex-shrink: 0;">
+                  <div>
+                    <h6 class="mb-1">Анаконда</h6>
+                    <p class="text-muted mb-0" style="font-size: 0.75rem;">Една от най-големите змии. Обитава влажните райони на Амазония и достига до 8 метра.</p>
+                  </div>
+                </div>
+                <div class="d-flex align-items-start mb-4" onclick="goToSlide(4)" style="cursor:pointer;">
+                  <img src="images/coernl-lama.jpg" alt="Лама" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-right: 12px; flex-shrink: 0;">
+                  <div>
+                    <h6 class="mb-1">Лама</h6>
+                    <p class="text-muted mb-0" style="font-size: 0.75rem;">Домашно животно, адаптирано към условията в Андите. Силно и издържливо животно.</p>
+                  </div>
+                </div>
+                <div class="d-flex align-items-start mb-4" onclick="goToSlide(5)" style="cursor:pointer;">
+                  <img src="images/penguins.jpg" alt="Пингвини" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-right: 12px; flex-shrink: 0;">
+                  <div>
+                    <h6 class="mb-1">Пингвини (в Патагония)</h6>
+                    <p class="text-muted mb-0" style="font-size: 0.75rem;">Живеят в южните води на Аржентина. Отлични плувци в студените океански води.</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="py-5">
+        <div class="container">
+          <h2 class="mb-4">Екосистеми на Южна Америка</h2>
+          <div class="row g-4">
+            <div class="col-md-6">
+              <div class="card h-100 shadow-sm border-0">
+                <img src="images/amazon.webp" class="card-img-top" alt="Амазонка">
+                <div class="card-body">
+                  <h5 class="card-title">Амазонската джунгла</h5>
+                  <p class="card-text">Известна като "белите дробове на планетата", Амазонската джунгла е дом на милиони видове животни и растения.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card h-100 shadow-sm border-0">
+                <img src="images/patagonia-glaciers.jpg" class="card-img-top" alt="Патагония">
+                <div class="card-body">
+                  <h5 class="card-title">Патагония</h5>
+                  <p class="card-text">Величавата пустинна екосистема с невероятни гледки на ледници и планини.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card h-100 shadow-sm border-0">
+                <img src="images/iguassu.webp" class="card-img-top" alt="Водопади Игуасу">
+                <div class="card-body">
+                  <h5 class="card-title">Водопади Игуасу</h5>
+                  <p class="card-text">Един от най-внушителните водопади на света, намиращ се на границата между Аржентина и Бразилия.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card h-100 shadow-sm border-0">
+                <img src="images/galapagos.JPG" class="card-img-top" alt="Галапагос">
+                <div class="card-body">
+                  <h5 class="card-title">Галапагоски острови</h5>
+                  <p class="card-text">Уникален архипелаг, където е възможно да видите морски игуани, гигантски костенурки и редки птици.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="py-4 bg-dark text-white">
+      <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+        <div>
+          <small>© 2026 Южна Америка — проучване и вдъхновение</small>
+        </div>
+        <div class="social-links">
+          <a href="#" class="text-white me-3"><i class="fab fa-facebook fa-lg"></i></a>
+          <a href="#" class="text-white me-3"><i class="fab fa-instagram fa-lg"></i></a>
+          <a href="#" class="text-white"><i class="fab fa-twitter fa-lg"></i></a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      const faders = document.querySelectorAll('.section-fade, .story-block, .country-card');
+      const appearOnScroll = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('appear');
+          obs.unobserve(entry.target);
+        });
+      }, { threshold: 0.05 });
+      faders.forEach(f => appearOnScroll.observe(f));
+
+      function goToSlide(index) {
+        const carouselEl = document.getElementById('natureCarousel');
+        const carousel = bootstrap.Carousel.getOrCreateInstance(carouselEl);
+        carousel.to(index);
+        carouselEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    </script>
+  </body>
+</html>

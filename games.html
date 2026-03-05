@@ -1,0 +1,678 @@
+<!doctype html>
+<html lang="bg">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Игри - Южна Америка</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+      /* ---- general game styles ---- */
+      .game-card {
+        border-radius: 16px;
+        overflow: hidden;
+        transition: box-shadow .3s;
+      }
+      .game-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,.15); }
+
+      /* ---- QUIZ ---- */
+      #quiz-section .option-btn {
+        display: block;
+        width: 100%;
+        text-align: left;
+        padding: .75rem 1.1rem;
+        margin-bottom: .55rem;
+        border: 2px solid #dee2e6;
+        border-radius: 10px;
+        background: #fff;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: border-color .2s, background .2s;
+      }
+      #quiz-section .option-btn:hover { border-color: #0d6efd; background: #f0f5ff; }
+      #quiz-section .option-btn.correct { border-color: #198754; background: #d1fae5; color: #145a32; font-weight: 600; }
+      #quiz-section .option-btn.wrong   { border-color: #dc3545; background: #fde8e8; color: #7b1a1a; }
+      #quiz-section .option-btn:disabled { cursor: default; }
+      .quiz-animal-img {
+        width: 160px; height: 160px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 4px solid #fff;
+        box-shadow: 0 4px 16px rgba(0,0,0,.2);
+      }
+      .progress-dots span {
+        display: inline-block;
+        width: 12px; height: 12px;
+        border-radius: 50%;
+        background: #dee2e6;
+        margin: 0 3px;
+        transition: background .3s;
+      }
+      .progress-dots span.done { background: #0d6efd; }
+      .progress-dots span.correct { background: #198754; }
+      .progress-dots span.wrong { background: #dc3545; }
+
+      /* ---- MATCH CAPITALS ---- */
+      #match-section .match-btn {
+        border: 2px solid #dee2e6;
+        border-radius: 10px;
+        padding: .6rem .9rem;
+        cursor: pointer;
+        font-size: .95rem;
+        background: #fff;
+        transition: all .2s;
+        text-align: center;
+        user-select: none;
+      }
+      #match-section .match-btn:hover { border-color: #0d6efd; background: #f0f5ff; }
+      #match-section .match-btn.selected { border-color: #0d6efd; background: #0d6efd; color: #fff; }
+      #match-section .match-btn.matched { border-color: #198754; background: #d1fae5; color: #145a32; font-weight: 600; cursor: default; }
+      #match-section .match-btn.error { border-color: #dc3545; background: #fde8e8; animation: shake .4s; }
+      @keyframes shake {
+        0%,100% { transform: translateX(0); }
+        25% { transform: translateX(-8px); }
+        75% { transform: translateX(8px); }
+      }
+
+      /* ---- DRAG MAP GAME ---- */
+      #drag-section .animal-labels-pool {
+        display: flex; flex-wrap: wrap; gap: 10px; min-height: 70px;
+        border: 2px dashed #dee2e6; border-radius: 12px;
+        padding: 12px; background: #f8f9fa;
+      }
+      #drag-section .drag-label {
+        padding: 8px 14px;
+        background: #0d6efd; color: #fff;
+        border-radius: 20px; cursor: grab;
+        font-size: .9rem; font-weight: 500;
+        transition: transform .15s, opacity .15s;
+        user-select: none;
+      }
+      #drag-section .drag-label:active { cursor: grabbing; transform: scale(1.08); }
+      #drag-section .drag-label.dragging { opacity: .5; }
+      #drag-section .drop-zone {
+        position: absolute;
+        width: 36px; height: 36px;
+        border-radius: 50%;
+        border: 2px dashed #fff;
+        background: rgba(255,255,255,.35);
+        cursor: pointer;
+        transition: background .2s, border-color .2s;
+      }
+      #drag-section .drop-zone:hover,
+      #drag-section .drop-zone.drag-over { background: rgba(13,110,253,.5); border-color: #0d6efd; }
+      #drag-section .drop-zone.correct { background: rgba(25,135,84,.6); border-color: #198754; pointer-events: none; }
+      #drag-section .drop-zone.wrong-drop { background: rgba(220,53,69,.6); border-color: #dc3545; animation: shake .4s; }
+      #drag-section .drop-zone .zone-label {
+        position: absolute;
+        white-space: nowrap;
+        top: 38px; left: 50%;
+        transform: translateX(-50%);
+        font-size: .72rem; font-weight: 600;
+        background: rgba(0,0,0,.65); color: #fff;
+        padding: 2px 6px; border-radius: 4px;
+        pointer-events: none; opacity: 0;
+        transition: opacity .3s;
+      }
+      #drag-section .drop-zone.correct .zone-label { opacity: 1; }
+      #drag-section .map-container {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        max-width: 480px;
+      }
+      #drag-section .map-container img { width: 100%; border-radius: 12px; display: block; }
+
+      /* ---- SCORE POPUP ---- */
+      .score-popup {
+        display: none;
+        position: fixed; inset: 0;
+        background: rgba(0,0,0,.55);
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+      }
+      .score-popup.show { display: flex; }
+      .score-popup-inner {
+        background: #fff;
+        border-radius: 20px;
+        padding: 2.5rem 3rem;
+        text-align: center;
+        box-shadow: 0 12px 48px rgba(0,0,0,.3);
+        max-width: 380px; width: 90%;
+        animation: popIn .4s ease;
+      }
+      @keyframes popIn {
+        from { transform: scale(.7); opacity: 0; }
+        to   { transform: scale(1);  opacity: 1; }
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- NAV -->
+    <nav id="mainNav" class="navbar navbar-expand-lg navbar-light fixed-top bg-white shadow-sm py-3">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="index.html">Южна Америка</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navmenu">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="index.html">Начало</a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="pages/history.html">История</a></li>
+              </ul>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="countries.html">Държави</a></li>
+            <li class="nav-item"><a class="nav-link" href="nature.html">Природа & Животни</a></li>
+            <li class="nav-item"><a class="nav-link" href="culture.html">Култура & Кухня</a></li>
+            <li class="nav-item"><a class="nav-link" href="gallery.html">Галерия</a></li>
+
+            <li class="nav-item"><a class="nav-link active" href="games.html">Игри</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact.html">Контакт</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main style="margin-top: 80px;">
+
+      <!-- PAGE HERO -->
+      <section class="py-5 bg-dark text-white text-center">
+        <div class="container">
+          <h1 class="display-5 fw-bold"><i class="bi bi-controller me-2"></i>Образователни Игри</h1>
+          <p class="lead">Научи повече за Южна Америка по забавен начин!</p>
+          <div class="row justify-content-center mt-4 g-3">
+            <div class="col-auto"><a href="#quiz-section"   class="btn btn-primary btn-lg">🧠 Животни Куиз</a></div>
+            <div class="col-auto"><a href="#match-section"  class="btn btn-success btn-lg">🗺️ Съвпадение Столици</a></div>
+            <div class="col-auto"><a href="#drag-section"   class="btn btn-warning btn-lg text-dark">🐆 Намери Животното</a></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           GAME 1 – ЖИВОТНИ КУИЗ (multiple choice)
+      ============================================================ -->
+      <section id="quiz-section" class="py-5">
+        <div class="container">
+          <h2 class="fw-bold mb-1"><span class="badge bg-primary me-2">1</span>Животни Куиз</h2>
+          <p class="text-muted mb-4">Разпознай животното от описанието. 10 въпроса, колкото повече — толкова по-добре!</p>
+
+          <div class="game-card shadow-sm bg-white p-4 p-md-5 rounded-4">
+            <!-- progress dots -->
+            <div class="progress-dots mb-4" id="quizDots"></div>
+
+            <!-- question area -->
+            <div id="quizArea">
+              <div class="text-center mb-4">
+                <div id="quizEmoji" style="font-size:5rem;line-height:1.1;"></div>
+              </div>
+              <h4 id="quizQuestion" class="text-center mb-4"></h4>
+              <div id="quizOptions"></div>
+              <div id="quizFeedback" class="text-center fw-bold fs-5 mt-2" style="min-height:30px;"></div>
+            </div>
+
+            <!-- score bar -->
+            <div class="d-flex justify-content-between align-items-center mt-4">
+              <span class="text-muted small">Въпрос <span id="qNum">1</span> от 10</span>
+              <span class="badge bg-primary fs-6">Точки: <span id="quizScore">0</span></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           GAME 2 – СЪВПАДЕНИЕ СТОЛИЦИ
+      ============================================================ -->
+      <section id="match-section" class="py-5 bg-light">
+        <div class="container">
+          <h2 class="fw-bold mb-1"><span class="badge bg-success me-2">2</span>Съвпадение: Държава ↔ Столица</h2>
+          <p class="text-muted mb-4">Натисни държава, после натисни правилната й столица. Намери всичките двойки!</p>
+
+          <div class="game-card bg-white shadow-sm p-4 rounded-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <span class="badge bg-success fs-6">Намерени: <span id="matchFound">0</span> / <span id="matchTotal">0</span></span>
+              <button class="btn btn-outline-success btn-sm" onclick="initMatch()"><i class="bi bi-arrow-clockwise me-1"></i>Рестарт</button>
+            </div>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <h6 class="text-muted mb-2">Държави</h6>
+                <div id="matchCountries" class="d-flex flex-wrap gap-2"></div>
+              </div>
+              <div class="col-md-6">
+                <h6 class="text-muted mb-2">Столици</h6>
+                <div id="matchCapitals" class="d-flex flex-wrap gap-2"></div>
+              </div>
+            </div>
+            <div id="matchFeedback" class="text-center fw-bold fs-5 mt-3" style="min-height:28px;"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           GAME 3 – НАМЕРИ ЖИВОТНОТО (drag-drop labels on map)
+      ============================================================ -->
+      <section id="drag-section" class="py-5">
+        <div class="container">
+          <h2 class="fw-bold mb-1"><span class="badge bg-warning text-dark me-2">3</span>Намери Животното на Картата</h2>
+          <p class="text-muted mb-4">Влачи (или кликни) животното и го пусни върху района на картата, където живее.</p>
+
+          <div class="game-card bg-white shadow-sm p-4 rounded-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <span class="badge bg-warning text-dark fs-6">Правилни: <span id="dragScore">0</span> / <span id="dragTotal">0</span></span>
+              <button class="btn btn-outline-warning btn-sm" onclick="initDrag()"><i class="bi bi-arrow-clockwise me-1"></i>Рестарт</button>
+            </div>
+
+            <div class="row g-4 align-items-start">
+              <!-- label pool -->
+              <div class="col-lg-4 order-lg-2">
+                <h6 class="text-muted mb-2">Животни — влачи ги на картата:</h6>
+                <div class="animal-labels-pool" id="labelsPool"></div>
+                <div id="dragFeedback" class="fw-bold mt-3 text-center" style="min-height:26px;"></div>
+              </div>
+              <!-- map -->
+              <div class="col-lg-8 order-lg-1">
+                <div class="map-container mx-auto">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/South_America_%28orthographic_projection%29.svg/500px-South_America_%28orthographic_projection%29.svg.png"
+                       alt="Карта на Южна Америка" id="mapImg" draggable="false">
+                  <div id="dropZonesContainer"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Score popup (shared) -->
+    <div class="score-popup" id="scorePopup">
+      <div class="score-popup-inner">
+        <div id="popupEmoji" style="font-size:3.5rem;"></div>
+        <h3 id="popupTitle" class="mt-2 mb-1"></h3>
+        <p id="popupMsg" class="text-muted"></p>
+        <div class="d-flex gap-2 justify-content-center mt-3">
+          <button class="btn btn-primary" id="popupRestart">Играй отново</button>
+          <button class="btn btn-outline-secondary" onclick="document.getElementById('scorePopup').classList.remove('show')">Затвори</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="py-4 bg-dark text-white">
+      <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+        <div><small>© 2026 Южна Америка — проучване и вдъхновение</small></div>
+        <div class="social-links">
+          <a href="#" class="text-white me-3"><i class="fab fa-facebook fa-lg"></i></a>
+          <a href="#" class="text-white me-3"><i class="fab fa-instagram fa-lg"></i></a>
+          <a href="#" class="text-white"><i class="fab fa-twitter fa-lg"></i></a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    // ================================================================
+    //  GAME 1 – ЖИВОТНИ КУИЗ
+    // ================================================================
+    const allQuizData = [
+      { emoji:'🐆', question:'Кой е най-голямото петнисто котка в Южна Америка?', answer:'Ягуар', options:['Лъв','Ягуар','Леопард','Гепард'] },
+      { emoji:'🦙', question:'Кое животно е роднина на лама и се отглежда заради вълната си?', answer:'Алпака', options:['Алпака','Овца','Як','Гуанако'] },
+      { emoji:'🐊', question:'Кой е най-голямата влечуга в Амазонка?', answer:'Черен кайман', options:['Нилски крокодил','Черен кайман','Игуана','Анаконда'] },
+      { emoji:'🐍', question:'Коя е най-тежката змия в света?', answer:'Анаконда', options:['Кобра','Питон','Боа констриктор','Анаконда'] },
+      { emoji:'🐸', question:'Кои жаби от Колумбия са едни от най-отровните животни на Земята?', answer:'Отровни стрелни жаби', options:['Стъклени жаби','Отровни стрелни жаби','Бикова жаба','Дървесна жаба'] },
+      { emoji:'🦅', question:'Кой е националната птица на Боливия, Чили, Колумбия и Еквадор?', answer:'Андски кондор', options:['Орел','Тукан','Коридо','Андски кондор'] },
+      { emoji:'🐹', question:'Кое е най-голямото гризач в света, което живее в Южна Америка?', answer:'Капибара', options:['Нутрия','Агути','Капибара','Бобър'] },
+      { emoji:'🦥', question:'Кое животно прекарва повечето от живота си, висящо на дърветата и движи се много бавно?', answer:'Ленивец', options:['Опосум','Тамандуа','Ленивец','Скункс'] },
+      { emoji:'🐦', question:'Коя е единствената птица, която плува, но не може да лети, и живее и в Патагония?', answer:'Пингвин', options:['Пеликан','Пингвин','Чайка','Фламинго'] },
+      { emoji:'🦜', question:'Кой вид папагал с ярки цветове се среща в тропическите гори на Амазонка?', answer:'Ара', options:['Какаду','Нимфа','Вълнист папагал','Ара'] },
+      { emoji:'🐠', question:'Коя прочута хищна риба живее в реките на Южна Америка?', answer:'Пираня', options:['Тигрова риба','Арована','Пираня','Стърляд'] },
+      { emoji:'🦘', question:'Кое родственото на тапира животно живее в Южна Америка?', answer:'Бразилски тапир', options:['Бразилски тапир','Хипопотам','Носорог','Окапи'] },
+      { emoji:'🦋', question:'Кой вид яркосина пеперуда е символ на тропиците в Бразилия?', answer:'Морфо', options:['Монарх','Адмирал','Морфо','Зорница'] },
+    ];
+
+    let quizQuestions = [];
+    let quizCurrent = 0;
+    let quizScore = 0;
+    let quizAnswered = false;
+
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function initQuiz() {
+      quizQuestions = shuffle(allQuizData).slice(0, 10);
+      quizCurrent = 0;
+      quizScore = 0;
+      quizAnswered = false;
+      document.getElementById('quizScore').textContent = 0;
+      buildDots();
+      showQuestion();
+    }
+
+    function buildDots() {
+      const dots = document.getElementById('quizDots');
+      dots.innerHTML = '';
+      quizQuestions.forEach((_, i) => {
+        const sp = document.createElement('span');
+        sp.id = 'dot' + i;
+        dots.appendChild(sp);
+      });
+    }
+
+    function showQuestion() {
+      if (quizCurrent >= quizQuestions.length) { endQuiz(); return; }
+      quizAnswered = false;
+      const q = quizQuestions[quizCurrent];
+      document.getElementById('quizEmoji').textContent = q.emoji;
+      document.getElementById('quizQuestion').textContent = q.question;
+      document.getElementById('quizFeedback').textContent = '';
+      document.getElementById('qNum').textContent = quizCurrent + 1;
+
+      const opts = shuffle(q.options);
+      const container = document.getElementById('quizOptions');
+      container.innerHTML = '';
+      opts.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.textContent = opt;
+        btn.onclick = () => checkQuizAnswer(btn, opt, q.answer);
+        container.appendChild(btn);
+      });
+    }
+
+    function checkQuizAnswer(btn, chosen, correct) {
+      if (quizAnswered) return;
+      quizAnswered = true;
+      const allBtns = document.querySelectorAll('#quizOptions .option-btn');
+      allBtns.forEach(b => b.disabled = true);
+
+      const dot = document.getElementById('dot' + quizCurrent);
+      if (chosen === correct) {
+        btn.classList.add('correct');
+        quizScore++;
+        document.getElementById('quizScore').textContent = quizScore;
+        document.getElementById('quizFeedback').innerHTML = '<span class="text-success">✅ Браво! Правилно!</span>';
+        dot.classList.add('correct');
+      } else {
+        btn.classList.add('wrong');
+        allBtns.forEach(b => { if (b.textContent === correct) b.classList.add('correct'); });
+        document.getElementById('quizFeedback').innerHTML = `<span class="text-danger">❌ Грешно! Верният отговор е: <strong>${correct}</strong></span>`;
+        dot.classList.add('wrong');
+      }
+      dot.classList.add('done');
+
+      setTimeout(() => {
+        quizCurrent++;
+        showQuestion();
+      }, 1800);
+    }
+
+    function endQuiz() {
+      let emoji = '🌟', title = 'Страхотно!', msg = '';
+      if (quizScore >= 9)       { emoji = '🏆'; title = 'Перфектно!'; }
+      else if (quizScore >= 7)  { emoji = '🥇'; title = 'Отличен резултат!'; }
+      else if (quizScore >= 5)  { emoji = '😊'; title = 'Добре свършена работа!'; }
+      else                      { emoji = '📚'; title = 'Учи повече!'; }
+      msg = `Ти отговори правилно на ${quizScore} от 10 въпроса.`;
+      showPopup(emoji, title, msg, initQuiz);
+    }
+
+    // ================================================================
+    //  GAME 2 – СЪВПАДЕНИЕ СТОЛИЦИ
+    // ================================================================
+    const allPairs = [
+      { country:'🇧🇷 Бразилия',       capital:'Бразилия' },
+      { country:'🇦🇷 Аржентина',      capital:'Буенос Айрес' },
+      { country:'🇵🇪 Перу',           capital:'Лима' },
+      { country:'🇨🇱 Чили',           capital:'Сантяго' },
+      { country:'🇨🇴 Колумбия',       capital:'Богота' },
+      { country:'🇪🇨 Еквадор',        capital:'Кито' },
+      { country:'🇧🇴 Боливия',        capital:'Сукре' },
+      { country:'🇻🇪 Венецуела',      capital:'Каракас' },
+      { country:'🇬🇾 Гвиана',         capital:'Джорджтаун' },
+      { country:'🇵🇾 Парагвай',       capital:'Асунсион' },
+      { country:'🇸🇷 Суринам',        capital:'Парамарибо' },
+      { country:'🇺🇾 Уругвай',        capital:'Монтевидео' },
+      { country:'🇬🇫 Фр. Гвиана',     capital:'Кайен' },
+    ];
+
+    let matchPairs = [];
+    let matchSelectedCountry = null;
+    let matchSelectedCapital = null;
+    let matchFoundCount = 0;
+
+    function initMatch() {
+      matchPairs = shuffle(allPairs);
+      matchFoundCount = 0;
+      matchSelectedCountry = null;
+      matchSelectedCapital = null;
+      document.getElementById('matchFound').textContent = 0;
+      document.getElementById('matchTotal').textContent = matchPairs.length;
+      document.getElementById('matchFeedback').textContent = '';
+
+      const countries = shuffle(matchPairs.map(p => p.country));
+      const capitals  = shuffle(matchPairs.map(p => p.capital));
+
+      renderMatchButtons('matchCountries', countries, 'country');
+      renderMatchButtons('matchCapitals',  capitals,  'capital');
+    }
+
+    function renderMatchButtons(containerId, items, type) {
+      const el = document.getElementById(containerId);
+      el.innerHTML = '';
+      items.forEach(item => {
+        const btn = document.createElement('button');
+        btn.className = 'match-btn';
+        btn.textContent = item;
+        btn.dataset.value = item;
+        btn.dataset.type = type;
+        btn.onclick = () => handleMatchClick(btn);
+        el.appendChild(btn);
+      });
+    }
+
+    function handleMatchClick(btn) {
+      if (btn.classList.contains('matched')) return;
+      const type = btn.dataset.type;
+
+      if (type === 'country') {
+        document.querySelectorAll('#matchCountries .match-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.toggle('selected');
+        matchSelectedCountry = btn.classList.contains('selected') ? btn : null;
+      } else {
+        document.querySelectorAll('#matchCapitals .match-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.toggle('selected');
+        matchSelectedCapital = btn.classList.contains('selected') ? btn : null;
+      }
+
+      if (matchSelectedCountry && matchSelectedCapital) {
+        checkMatch(matchSelectedCountry, matchSelectedCapital);
+      }
+    }
+
+    function checkMatch(cBtn, capBtn) {
+      const country = cBtn.dataset.value;
+      const capital = capBtn.dataset.value;
+      const pair = matchPairs.find(p => p.country === country);
+
+      matchSelectedCountry = null;
+      matchSelectedCapital = null;
+      document.querySelectorAll('.match-btn.selected').forEach(b => b.classList.remove('selected'));
+
+      if (pair && pair.capital === capital) {
+        cBtn.classList.add('matched');
+        capBtn.classList.add('matched');
+        matchFoundCount++;
+        document.getElementById('matchFound').textContent = matchFoundCount;
+        document.getElementById('matchFeedback').innerHTML = '<span class="text-success">✅ Правилно!</span>';
+        if (matchFoundCount === matchPairs.length) {
+          setTimeout(() => showPopup('🏆', 'Всички двойки!', `Намери всичките ${matchPairs.length} двойки!`, initMatch), 600);
+        }
+      } else {
+        cBtn.classList.add('error');
+        capBtn.classList.add('error');
+        document.getElementById('matchFeedback').innerHTML = '<span class="text-danger">❌ Не е правилно — опитай пак!</span>';
+        setTimeout(() => {
+          cBtn.classList.remove('error');
+          capBtn.classList.remove('error');
+          document.getElementById('matchFeedback').textContent = '';
+        }, 800);
+      }
+    }
+
+    // ================================================================
+    //  GAME 3 – НАМЕРИ ЖИВОТНОТО (click-to-assign on map)
+    // ================================================================
+    // Positions are expressed as percentage of map image (left%, top%)
+    const dragAnimals = [
+      { name:'Ягуар',         emoji:'🐆', left:35, top:38, hint:'Жleboe Амазония/Бразилия' },
+      { name:'Ленивец',       emoji:'🦥', left:28, top:35, hint:'Тропически гори' },
+      { name:'Андски кондор', emoji:'🦅', left:22, top:52, hint:'Планините на Андите (Чили/Перу)' },
+      { name:'Капибара',      emoji:'🐹', left:40, top:45, hint:'Реки & блата (Бразилия)' },
+      { name:'Пингвин',       emoji:'🐧', left:30, top:88, hint:'Патагония (Чили/Аржентина)' },
+      { name:'Анаконда',      emoji:'🐍', left:50, top:30, hint:'Амазонка (Венецуела/Бразилия)' },
+      { name:'Фламинго',      emoji:'🦩', left:25, top:70, hint:'Солени езера на Андите (Боливия/Чили)' },
+      { name:'Ара',           emoji:'🦜', left:43, top:28, hint:'Тропически гори (Амазония)' },
+      { name:'Морска игуана', emoji:'🦎', left:5,  top:40, hint:'Галапагоски острови (Еквадор)' },
+      { name:'Пираня',        emoji:'🐟', left:38, top:32, hint:'Реки на Амазония' },
+    ];
+
+    let dragActive = null; // currently dragged/clicked label name
+    let dragCorrect = 0;
+    const TOLERANCE = 12; // percent radius for "correct" drop zone
+
+    function initDrag() {
+      dragActive = null;
+      dragCorrect = 0;
+      document.getElementById('dragScore').textContent = 0;
+      document.getElementById('dragTotal').textContent = dragAnimals.length;
+      document.getElementById('dragFeedback').textContent = '';
+
+      // Build label pool
+      const pool = document.getElementById('labelsPool');
+      pool.innerHTML = '';
+      shuffle([...dragAnimals]).forEach(a => {
+        const lbl = document.createElement('div');
+        lbl.className = 'drag-label';
+        lbl.id = 'lbl_' + a.name;
+        lbl.textContent = a.emoji + ' ' + a.name;
+        lbl.dataset.name = a.name;
+        // click to select
+        lbl.onclick = () => selectLabel(lbl);
+        // HTML5 drag
+        lbl.draggable = true;
+        lbl.addEventListener('dragstart', e => {
+          dragActive = a.name;
+          lbl.classList.add('dragging');
+          e.dataTransfer.setData('text/plain', a.name);
+        });
+        lbl.addEventListener('dragend', () => lbl.classList.remove('dragging'));
+        pool.appendChild(lbl);
+      });
+
+      // Build drop zones
+      const container = document.getElementById('dropZonesContainer');
+      container.innerHTML = '';
+      dragAnimals.forEach(a => {
+        const zone = document.createElement('div');
+        zone.className = 'drop-zone';
+        zone.id = 'zone_' + a.name;
+        zone.style.left = a.left + '%';
+        zone.style.top  = a.top  + '%';
+        zone.style.transform = 'translate(-50%, -50%)';
+        zone.title = '?';
+
+        const lbl = document.createElement('span');
+        lbl.className = 'zone-label';
+        lbl.textContent = a.name;
+        zone.appendChild(lbl);
+
+        // click to drop selected label
+        zone.onclick = () => handleZoneDrop(a.name);
+        // HTML5 drag-over / drop
+        zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+        zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+        zone.addEventListener('drop', e => {
+          e.preventDefault();
+          zone.classList.remove('drag-over');
+          const droppedName = e.dataTransfer.getData('text/plain');
+          dragActive = droppedName;
+          handleZoneDrop(a.name);
+        });
+        container.appendChild(zone);
+      });
+    }
+
+    function selectLabel(lbl) {
+      if (lbl.classList.contains('matched-out')) return;
+      document.querySelectorAll('.drag-label').forEach(l => l.style.outline = '');
+      dragActive = lbl.dataset.name;
+      lbl.style.outline = '3px solid #ffc107';
+      document.getElementById('dragFeedback').innerHTML = `<span class="text-primary">Избра: <strong>${lbl.textContent}</strong> — кликни върху точката на картата!</span>`;
+    }
+
+    function handleZoneDrop(zoneName) {
+      if (!dragActive) {
+        document.getElementById('dragFeedback').innerHTML = '<span class="text-warning">Първо избери животно от списъка!</span>';
+        return;
+      }
+      const zone = document.getElementById('zone_' + zoneName);
+      if (!zone || zone.classList.contains('correct')) return;
+
+      if (dragActive === zoneName) {
+        // correct!
+        zone.classList.add('correct');
+        zone.title = zoneName;
+        dragCorrect++;
+        document.getElementById('dragScore').textContent = dragCorrect;
+        // hide label from pool
+        const lblEl = document.getElementById('lbl_' + dragActive);
+        if (lblEl) { lblEl.style.opacity = '0.3'; lblEl.style.pointerEvents = 'none'; lblEl.classList.add('matched-out'); }
+        document.getElementById('dragFeedback').innerHTML = `<span class="text-success">✅ Браво! <strong>${dragActive}</strong> е на правилното място!</span>`;
+        dragActive = null;
+        document.querySelectorAll('.drag-label').forEach(l => l.style.outline = '');
+        if (dragCorrect === dragAnimals.length) {
+          setTimeout(() => showPopup('🦁', 'Страхотно!', 'Намери всичките 10 животни на картата!', initDrag), 700);
+        }
+      } else {
+        // wrong
+        zone.classList.add('wrong-drop');
+        document.getElementById('dragFeedback').innerHTML = `<span class="text-danger">❌ <strong>${dragActive}</strong> не живее тук — опитай друга точка!</span>`;
+        setTimeout(() => zone.classList.remove('wrong-drop'), 600);
+      }
+    }
+
+    // ================================================================
+    //  SHARED POPUP
+    // ================================================================
+    function showPopup(emoji, title, msg, restartFn) {
+      document.getElementById('popupEmoji').textContent = emoji;
+      document.getElementById('popupTitle').textContent = title;
+      document.getElementById('popupMsg').textContent   = msg;
+      document.getElementById('popupRestart').onclick = () => {
+        document.getElementById('scorePopup').classList.remove('show');
+        restartFn();
+      };
+      document.getElementById('scorePopup').classList.add('show');
+    }
+
+    // ================================================================
+    //  INIT ALL
+    // ================================================================
+    initQuiz();
+    initMatch();
+    initDrag();
+    </script>
+  </body>
+</html>

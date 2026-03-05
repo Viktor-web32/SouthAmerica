@@ -1,0 +1,85 @@
+:root{
+  --accent: #0d6efd;
+  --muted: #6c757d;
+  --bg-gradient: linear-gradient(120deg,#004d40 0%, #00796b 50%, #1e88e5 100%);
+  --glass: rgba(255,255,255,0.06);
+}
+*{box-sizing:border-box}
+body{font-family:'Poppins',sans-serif;margin:0;background:linear-gradient(180deg,#f8fafc, #fff);color:#222;scroll-behavior:smooth}
+
+.hero-section{min-height:85vh;background-image:linear-gradient(180deg, rgba(2,6,23,0.5), rgba(2,6,23,0.2)), url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1500&q=60');background-size:cover;background-position:center;padding-top:90px}
+.hero-section h1{font-family:'Merriweather',serif}
+
+/* Transparent hero navbar (index.html) */
+.navbar-brand{color:#fff}
+.navbar .nav-link{color:rgba(255,255,255,0.9)}
+.navbar.fixed-top.scrolled{background:rgba(255,255,255,0.95);box-shadow:0 6px 18px rgba(0,0,0,0.08)}
+.navbar.fixed-top.scrolled .navbar-brand{color:#051923}
+.navbar.fixed-top.scrolled .nav-link{color:#333}
+
+/* Hover dropdown for Начало */
+.navbar .dropdown:hover .dropdown-menu {
+  display: block;
+  margin-top: 0;
+}
+
+/* White background navbar (all other pages) */
+.navbar.bg-white .navbar-brand{color:#051923}
+.navbar.bg-white .nav-link{color:#333}
+.navbar.bg-white .nav-link:hover{color:var(--accent)}
+.navbar.bg-white .nav-link.active{color:var(--accent);font-weight:600}
+
+.section-fade{opacity:0;transform:translateY(18px);transition:all .7s ease-out}
+.section-fade.appear{opacity:1;transform:none}
+.story-block{opacity:0;transform:translateY(14px);transition:all .6s ease-out}
+.story-block.appear{opacity:1;transform:none}
+.country-card{background:linear-gradient(180deg, rgba(255,255,255,0.98), #fff);border-radius:12px;transition:transform .25s ease, box-shadow .25s ease}
+.country-card:hover{transform:translateY(-6px) scale(1.01);box-shadow:0 18px 30px rgba(2,6,23,0.08)}
+.flag{width:40px;height:auto;border-radius:3px}
+
+.country-card .small{color:#333}
+.country-card .flag{width:36px}
+
+.timeline{display:flex;flex-direction:column;gap:12px}
+.timeline-item{background:#fff;padding:18px;border-radius:10px;box-shadow:0 6px 18px rgba(2,6,23,0.04)}
+
+.fact-box h4{font-family:'Merriweather',serif;font-size:2rem;margin:0;color:var(--accent)}
+
+.appear{opacity:1;transform:none}
+
+/* Carousel caption style */
+.carousel-caption{background:linear-gradient(90deg, rgba(0,0,0,0.35), rgba(0,0,0,0.05));padding:12px;border-radius:6px}
+
+.animal-list li{padding:6px 0;border-bottom:1px dashed rgba(0,0,0,0.03)}
+
+/* Footer */
+footer{background:linear-gradient(90deg,#002d40,#001f3a)}
+
+/* Responsive tweaks */
+@media (max-width:767px){
+  .hero-section{padding-top:120px}
+  .navbar .nav-link{color:#051923}
+}
+
+/* Small helpers */
+.btn{transition:all .2s ease}
+.btn:active{transform:translateY(1px)}
+
+/* Map styles */
+.map-wrapper{position:relative;max-width:1000px;height:420px;margin:0 auto;border-radius:12px;overflow:hidden;background:#eef6f4;box-shadow:0 12px 30px rgba(2,6,23,0.04)}
+
+/* Leaflet map styling overrides */
+#leafletMap{border-radius:12px}
+.leaflet-container{font-family:inherit}
+
+.map-pin{position:absolute;width:28px;height:28px;border-radius:50%;background:var(--accent);border:3px solid #fff;box-shadow:0 6px 18px rgba(2,6,23,0.12);cursor:pointer;transform:translate(-50%,-50%);transition:transform .18s ease, box-shadow .18s ease}
+.map-pin:focus{outline:2px solid #fff;box-shadow:0 8px 22px rgba(13,110,253,0.25)}
+.map-pin:hover{transform:translate(-50%,-50%) scale(1.08);box-shadow:0 20px 34px rgba(2,6,23,0.14)}
+.map-pin::after{content:'';position:absolute;left:50%;top:50%;width:44px;height:44px;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 0 6px rgba(13,110,253,0.06);opacity:0;transition:opacity .2s}
+.map-pin:hover::after{opacity:1}
+.map-tooltip{position:absolute;min-width:220px;max-width:320px;background:linear-gradient(180deg,#fff,#f8fafc);padding:12px;border-radius:10px;box-shadow:0 12px 30px rgba(2,6,23,0.12);transform:translateY(-8px);transition:opacity .18s, transform .18s;opacity:0;pointer-events:none;z-index:50}
+.map-tooltip.show{opacity:1;pointer-events:auto;transform:none}
+.map-tooltip img{width:40px;height:auto;border-radius:4px;margin-right:8px}
+.map-tooltip .t-title{font-weight:600}
+.map-tooltip .t-sub{font-size:.9rem;color:var(--muted)}
+
